@@ -1,5 +1,7 @@
-package com.example.customerbackend.customer
+package com.example.customerbackend.controller
 
+import com.example.customerbackend.services.CustomerService
+import com.example.customerbackend.entities.Customer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

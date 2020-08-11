@@ -1,4 +1,4 @@
-package com.example.customer_backend
+package com.example.customerbackend
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

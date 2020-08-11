@@ -1,4 +1,4 @@
-package com.example.customer_backend
+package com.example.customerbackend
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

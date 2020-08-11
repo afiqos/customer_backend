@@ -1,5 +1,7 @@
-package com.example.customerbackend.customer
+package com.example.customerbackend.services
 
+import com.example.customerbackend.repositories.CustomerRepository
+import com.example.customerbackend.entities.Customer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

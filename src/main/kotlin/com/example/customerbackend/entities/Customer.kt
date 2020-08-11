@@ -1,4 +1,4 @@
-package com.example.customerbackend.customer
+package com.example.customerbackend.entities
 
 import javax.persistence.Column
 import javax.persistence.Entity
