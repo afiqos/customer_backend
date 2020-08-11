@@ -10,6 +10,7 @@ import javax.persistence.Table
 data class Customer (
         @Id
         @Column(name = "account_number")  // not sure why if using "accountNumber" it will be defaulted to "account_number" later on
+        // also an option to make this autoincrement, but perhaps require changes in the data.sql, schema.sql too
         var accountNumber: Int,
 
         @Column(name = "name")
@@ -22,6 +23,6 @@ data class Customer (
         var username: String,
 
         @Column(name = "password")
-        var password: String // probably need to be something else?
+        var password: String // probably need to be something else? maybe hashed or something
 ) {
 }

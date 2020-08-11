@@ -17,17 +17,21 @@ class CustomerService {
         return customerRepository.findById(id).orElse(null)
     }
 
-
     fun findAll(): MutableIterable<Customer> {
         return customerRepository.findAll()
     }
 
+    fun addNewCustomer(customer: Customer) {
+        customerRepository.save(customer)
+    }
 
-//    val jack = Customer(1, "Jack", "Home", "user1", "pass123")
-//    var customers: MutableList<Customer> = mutableListOf(jack)
-//    fun findById(id: Int): Customer? {
-//        return jack
-//    }
+    fun deleteCustomer(customerId: Int) {
+        customerRepository.deleteById(customerId)
+    }
+
+    fun updateCustomer(customer: Customer) {
+        customerRepository.save(customer)
+    }
 
 
 }
