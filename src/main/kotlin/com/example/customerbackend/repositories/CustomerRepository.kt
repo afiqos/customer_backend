@@ -1,4 +1,4 @@
-package com.example.customer_backend.customer
+package com.example.customerbackend.customer
 
 import org.springframework.data.repository.CrudRepository
 

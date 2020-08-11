@@ -1,4 +1,4 @@
-package com.example.customer_backend.customer
+package com.example.customerbackend.customer
 
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -9,8 +9,8 @@ import javax.persistence.Table
 @Table(name = "customers")
 data class Customer (
         @Id
-        @Column(name = "account_number")
-        var account_number: Int,
+        @Column(name = "account_number")  // not sure why if using "accountNumber" it will be defaulted to "account_number" later on
+        var accountNumber: Int,
 
         @Column(name = "name")
         var name: String,
