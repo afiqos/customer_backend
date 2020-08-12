@@ -12,8 +12,8 @@ class CustomerController {
     @Autowired
     lateinit var customerService: CustomerService
 
-    @GetMapping
-    fun findAll(): MutableIterable<Customer> = customerService.findAll()
+//    @GetMapping
+//    fun findAll(): MutableIterable<Customer> = customerService.findAll()
 
     @GetMapping("/{customerId}")
     fun findById(@PathVariable customerId: Int): Customer? = customerService.findById(customerId)
@@ -30,4 +30,11 @@ class CustomerController {
     // Seems to be updating existing entries fine without needing customerId/account_nuumber param
     @PutMapping
     fun updateCustomer(@RequestBody customer: Customer) = customerService.updateCustomer(customer)
+
+
+    @GetMapping
+    fun findByName(@RequestParam(value="name") customerName: String): List<String> {
+        return customerService.findByName(customerName)
+    }
+
 }

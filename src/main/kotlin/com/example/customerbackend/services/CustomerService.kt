@@ -33,5 +33,9 @@ class CustomerService {
         customerRepository.save(customer)
     }
 
+    fun findByName(customerName: String): List<String> {
+        return customerRepository.findByNameLike(customerName)
+    }
+
 
 }
