@@ -31,7 +31,6 @@ class CustomerController {
     @PutMapping
     fun updateCustomer(@RequestBody customer: Customer) = customerService.updateCustomer(customer)
 
-
     @GetMapping
     fun findByName(@RequestParam(value="name") customerName: String): List<String> {
         return customerService.findByName(customerName)
