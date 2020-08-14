@@ -6,10 +6,10 @@ import javax.validation.constraints.NotBlank
 @Entity
 @Table(name = "customers")
 data class Customer (
-//        @Id
-//        @Column(name = "account_number")  // not sure why if using "accountNumber" it will be defaulted to "account_number" later on
-//        @GeneratedValue(strategy = GenerationType.IDENTITY)
-//        var accountNumber: Int,
+        @Id
+        @Column(name = "account_number")  // not sure why if using "accountNumber" it will be defaulted to "account_number" later on
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        var accountNumber: Int,
 
         @field:NotBlank(message = "Customer's name is missing")
         @Column(name = "name")
@@ -28,7 +28,7 @@ data class Customer (
         var password: String // probably need to be something else? maybe hashed or something
 )
 {
-        @Id @Column(name = "account_number")
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var accountNumber: Int = 0
+//        @Id @Column(name = "account_number")
+//        @GeneratedValue(strategy = GenerationType.IDENTITY)
+//        var accountNumber: Int = 1
 }
