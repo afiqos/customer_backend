@@ -21,9 +21,9 @@ import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import javax.print.attribute.standard.Media
 
 @ExtendWith(SpringExtension::class)
 //@WebMvcTest(CustomerController::class)
@@ -51,24 +51,26 @@ internal class CustomerControllerTest {
     private var customerRepository = mockk<CustomerRepository>()
 
     @Test
-    fun springContextLoaded() {
+    internal fun springContextLoaded() {
 
     }
 
+    val gson = Gson()
+
     @Test
-    fun testFindById() {
+    internal fun testFindById() {
 
         val testCustomerId = 1
-//        val expectedResult = Customer(1, "Wrong name", "Homeee", "user111", "pass111")
-        val expectedResult = Customer(1, "Jack", "Home", "user111", "pass111")
+        val expectedResult = Customer(1, "Wrong name", "Homeee", "user111", "pass111")
+//        val expectedResult = Customer(1, "Jack", "Home", "user111", "pass111")
 //        every { customerService.findById(testCustomerId) } returns expectedResult
 
-        val gson = Gson()
         val result = mockMvc.perform(MockMvcRequestBuilders
                 .get("/customers/{customerId}", testCustomerId)
                 .accept(MediaType.APPLICATION_JSON))
 
                 .andExpect(status().isOk)
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(gson.toJson(expectedResult)))
 //                .andDo(print())
 //                .andReturn()
@@ -77,5 +79,18 @@ internal class CustomerControllerTest {
 //        assertEquals(gson.toJson(expectedResult), result.response.contentAsString)
     }
 
+    @Test
+    internal fun testFindByName() {
 
+        val testSearchName = "Jack"
+        val expectedResult = listOf("\"Jack\"", "\"Jacko TTsT\"", "\"aJack TTsT\"")
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/customers")
+                .param("name", testSearchName))
+
+                .andExpect(status().isOk)
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(expectedResult.toString()))
+    }
 }
