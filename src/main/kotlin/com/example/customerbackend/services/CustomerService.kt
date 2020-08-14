@@ -21,8 +21,14 @@ class CustomerService {
         return customerRepository.findAll()
     }
 
-    fun addNewCustomer(customer: Customer) {
-        customerRepository.save(customer)
+    fun addNewCustomer(customer: Customer): String {
+        if(customerRepository.existsById(customer.accountNumber)) {
+            return "Account Number already exists. Process cancelled."
+        } else {
+            customerRepository.save(customer)
+            return "Process successful, new Customer added."
+        }
+
     }
 
     fun deleteCustomer(customerId: Int) {

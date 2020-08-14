@@ -94,4 +94,36 @@ internal class CustomerControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(expectedResult.toString()))
     }
+
+    @Test
+    internal fun testAddNewCust() {
+        val testPostContent = Customer(0,"yyyuuue", "Home", "user111", "pass111")
+
+         mockMvc.perform(MockMvcRequestBuilders
+                 .post("/customers")
+                 .accept(MediaType.APPLICATION_JSON)
+                 .contentType(MediaType.APPLICATION_JSON)
+                 .content(gson.toJson(testPostContent)))
+
+                 .andExpect(status().isOk)
+                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                 .andExpect(content().string("Process successful, new Customer added."))
+
+    }
+
+    @Test
+    internal fun testAddNewCustWithExistingAccountNumber() {
+        val testPostContent = Customer(1, "fdasfdas", "homie", "user1", "pass1")
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/customers")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(testPostContent)))
+
+                .andExpect(status().isOk)   // should it still be isOk? considering we want the POST to fail
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string("Account Number already exists. Process cancelled."))
+    }
+
 }
