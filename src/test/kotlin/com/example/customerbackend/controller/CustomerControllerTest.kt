@@ -61,8 +61,8 @@ internal class CustomerControllerTest {
     internal fun testFindById() {
 
         val testCustomerId = 1
-//        val expectedResult = Customer(1, "Wrong name", "Homeee", "user111", "pass111")
-        val expectedResult = Customer(1, "Jack", "Home", "user111", "pass111")
+//        val expectedResult = Customer("Wrong name", "Homeee", "user111", "pass111")
+        val expectedResult = Customer("Jack", "Home", "user111", "pass111")
 //        every { customerService.findById(testCustomerId) } returns expectedResult
 
         val result = mockMvc.perform(MockMvcRequestBuilders
