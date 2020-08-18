@@ -3,7 +3,10 @@ package com.example.customerbackend.controller
 import com.example.customerbackend.services.CustomerService
 import com.example.customerbackend.entities.Customer
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/customers")
@@ -20,7 +23,11 @@ class CustomerController {
 
     // probably need some kind of validation too
     @PostMapping
-    fun addNewCustomer(@RequestBody customer: Customer) = customerService.addNewCustomer(customer)
+    fun addNewCustomer(@RequestBody customer: Customer): ResponseEntity<String> {
+        customerService.addNewCustomer(customer)
+        return ResponseEntity.status(HttpStatus.OK).body("Process successful, new Customer added.")
+
+    }
 
     // Do we need some validation for deleting? Seems too easy to have accidental deletes from just using URI
     @DeleteMapping("/{customerId}")
