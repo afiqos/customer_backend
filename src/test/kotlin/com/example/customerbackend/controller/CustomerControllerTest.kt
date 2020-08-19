@@ -26,37 +26,86 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import javax.print.attribute.standard.Media
 
 @ExtendWith(SpringExtension::class)
-//@WebMvcTest(CustomerController::class)
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(CustomerController::class)
+
+//@SpringBootTest
+//@AutoConfigureMockMvc
+
 //@Sql("/schema-test.sql", "/import.sql")
 internal class CustomerControllerTest {
 
-//    @TestConfiguration
-//    class CustomerControllerTestConfig {
-//        @Bean
-//        fun customerService() = mockk<CustomerService>(relaxed = true)
-//
-//        @Bean
-//        fun CustomerRepository() = mockk<CustomerRepository>()
-//    }
+    @TestConfiguration
+    class CustomerControllerTestConfig {
+        @Bean
+        fun customerService() = mockk<CustomerService>(relaxed = true)
+
+        @Bean
+        fun CustomerRepository() = mockk<CustomerRepository>()
+    }
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-//    @Autowired
-//    private lateinit var customerService: CustomerService
-
-    private var customerService = mockk<CustomerService>()
-    private var customerRepository = mockk<CustomerRepository>()
+    @Autowired
+    private lateinit var customerService: CustomerService
 
     @Test
     internal fun springContextLoaded() {
 
     }
 
-    val gson = Gson()
+    private val gson = Gson()
 
+    @Test
+    internal fun checkDbEmpty() {   // ensuring that DB is not initialized with values for the controller unit tests
+        val testCustomerId = 1
+        val expectedResult = Customer(0,"", "", "", "")
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/customers/{customerId}", testCustomerId)
+                .accept(MediaType.APPLICATION_JSON))
+
+                .andExpect(status().isOk)       // should change
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(gson.toJson(expectedResult)))
+                .andDo(print())
+    }
+
+    @Test
+    internal fun findById() {
+        val testCustomerId = 1
+        val mockFoundCustomer = Customer(1, "ttt", "Homeee", "user111", "pass111")
+
+        every { customerService.findById(testCustomerId) } returns mockFoundCustomer
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/customers/{customerId}", testCustomerId)
+                .accept(MediaType.APPLICATION_JSON))
+
+                .andDo(print())
+                .andExpect(status().isOk)
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(gson.toJson(mockFoundCustomer)))
+    }
+
+    @Test
+    internal fun addNewCustomerSuccessResponse() {
+        val mockedOutput = Customer(1, "", "Homeee", "user111", "pass111")
+
+//        every { customerService.addNewCustomer(mockedOutput) } returns Unit     // whats the point of this? still works with or w/o it
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/customers")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(mockedOutput)))
+                .andDo(print())
+                .andExpect(status().isOk)
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string("Process successful, new Customer added."))
+    }
+
+/*
     @Test
     internal fun testFindById() {
 
@@ -125,5 +174,6 @@ internal class CustomerControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string("Account Number already exists. Process cancelled."))
     }
+ */
 
 }

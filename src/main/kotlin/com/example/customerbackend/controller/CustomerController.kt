@@ -26,7 +26,6 @@ class CustomerController {
     fun addNewCustomer(@RequestBody customer: Customer): ResponseEntity<String> {
         customerService.addNewCustomer(customer)
         return ResponseEntity.status(HttpStatus.OK).body("Process successful, new Customer added.")
-
     }
 
     // Do we need some validation for deleting? Seems too easy to have accidental deletes from just using URI
