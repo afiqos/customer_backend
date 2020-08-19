@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.util.*
 import javax.validation.Valid
 
 @RestController
@@ -19,7 +20,11 @@ class CustomerController {
 //    fun findAll(): MutableIterable<Customer> = customerService.findAll()
 
     @GetMapping("/{customerId}")
-    fun findById(@PathVariable customerId: Int): Customer? = customerService.findById(customerId)
+    fun findById(@PathVariable customerId: Int): ResponseEntity<Customer> {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(customerService.findById(customerId))
+
+    }
 
     // probably need some kind of validation too
     @PostMapping

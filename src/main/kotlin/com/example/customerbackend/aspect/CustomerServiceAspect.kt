@@ -1,8 +1,11 @@
 package com.example.customerbackend.aspect
 
 import com.example.customerbackend.exceptions.MissingCustomerDetailsException
+import com.example.customerbackend.exceptions.MissingFindByIdParamException
 import org.aspectj.lang.annotation.*
 import org.springframework.stereotype.Component
+import org.springframework.web.bind.MissingServletRequestParameterException
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import javax.validation.ConstraintViolationException
 
 @Aspect
@@ -12,16 +15,17 @@ class CustomerServiceAspect {
     fun addCustomerOperation() {}
 
     @AfterThrowing("addCustomerOperation()", throwing = "exception")
-    fun test2(exception: ConstraintViolationException) {
+    fun addCustomerConstraintViolation(exception: ConstraintViolationException) {
         // need to clean this message and get only the interpolated message
         throw MissingCustomerDetailsException(exception.constraintViolations.toString())
-
     }
 
+    @Pointcut("execution(* com.example.customerbackend.services.CustomerService.findById(..))")
+    fun findByIdOperation() {}
 
-//    @AfterThrowing("addCustomerOperation()")
-//    fun test() {
-//        throw IdAlreadyExistsException("From AOP validator")
-//    }
+    @AfterThrowing("findByIdOperation()", throwing = "exception")
+    fun findByIdMissingRequestParam(exception: MissingServletRequestParameterException) {
+        throw MissingFindByIdParamException(exception.localizedMessage)
+    }
 
 }
