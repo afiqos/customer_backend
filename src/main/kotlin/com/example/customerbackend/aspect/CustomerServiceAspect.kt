@@ -20,6 +20,18 @@ class CustomerServiceAspect {
         throw MissingCustomerDetailsException(exception.constraintViolations.toString())
     }
 
+    // not working, exception not caught
+    @Pointcut("execution(* com.example.customerbackend.services.CustomerService.updateCustomer(..))")
+    fun updateCustomerOperation() {}
+
+    @AfterThrowing("updateCustomerOperation()", throwing = "exception")
+    fun updateCustomerConstraintViolation(exception: ConstraintViolationException) {
+        print("testing aop")
+        // need to clean this message and get only the interpolated message
+        throw MissingCustomerDetailsException(exception.constraintViolations.toString())
+    }
+
+
     @Pointcut("execution(* com.example.customerbackend.services.CustomerService.findById(..))")
     fun findByIdOperation() {}
 

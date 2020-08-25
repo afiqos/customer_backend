@@ -40,7 +40,11 @@ class CustomerController {
     // Do we need some validation for updating?
     // Seems to be updating existing entries fine without needing customerId/account_nuumber param
     @PutMapping
-    fun updateCustomer(@RequestBody customer: Customer) = customerService.updateCustomer(customer)
+    fun updateCustomer(@RequestBody customer: Customer): ResponseEntity<String> {
+        customerService.updateCustomer(customer)
+        return ResponseEntity.status(HttpStatus.OK).body("Process successful, Customer updated.")
+    }
+
 
     @GetMapping
     fun findByName(@RequestParam(value="name") customerName: String): List<String> {

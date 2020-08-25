@@ -4,6 +4,7 @@ import com.example.customerbackend.repositories.CustomerRepository
 import com.example.customerbackend.entities.Customer
 import com.example.customerbackend.exceptions.IdAlreadyExistsException
 import com.example.customerbackend.exceptions.NoIdFoundFromSearchException
+import com.example.customerbackend.exceptions.UpdateIdDoesNotExistException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -32,12 +33,9 @@ class CustomerService {
     fun addNewCustomer(customer: Customer) {
         if (customerRepository.existsById(customer.accountNumber)) {
             throw IdAlreadyExistsException("Account Number already exists. Process cancelled.")
-
         } else {
             customerRepository.save(customer)
-
         }
-
     }
 
     fun deleteCustomer(customerId: Int) {
@@ -45,7 +43,12 @@ class CustomerService {
     }
 
     fun updateCustomer(customer: Customer) {
-        customerRepository.save(customer)
+        if (customerRepository.existsById(customer.accountNumber)) {
+            customerRepository.save(customer)
+        } else {
+            // id does not exist, decline process so it doesn't accidentally create a new entry
+            throw UpdateIdDoesNotExistException("Account does not exist. Process cancelled.")
+        }
     }
 
     fun findByName(customerName: String): List<String> {
