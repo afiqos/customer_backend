@@ -120,6 +120,19 @@ internal class CustomerControllerTest {
                 .andExpect(content().string("Process successful, Customer updated."))
     }
 
+    @Test
+    internal fun `deleteExistingCustomerSuccess()`() {
+        val testCustomerId = 1
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/customers/{customerId}", testCustomerId)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk)
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string("Process successful, customer deleted."))
+    }
+
     /*
     @Test
     internal fun testFindById() {
