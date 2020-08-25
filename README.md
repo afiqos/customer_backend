@@ -1,6 +1,10 @@
-# Goals
+# customer_backend
+kotlin + springboot exercise project
 
-Scenario: we are working on a web application and it's time to create a backend service for processing customer related information.
+
+### Scenario
+
+We are working on a web application and it's time to create a backend service for processing customer related information.
 
 ### Requirements
 
@@ -14,6 +18,8 @@ Scenario: we are working on a web application and it's time to create a backend 
 ### Other requirements
 * Application should be functional together with any unit tests (not done)
 * Implement some form of application security (not done)
+
+
 
 
 # Read Me First
