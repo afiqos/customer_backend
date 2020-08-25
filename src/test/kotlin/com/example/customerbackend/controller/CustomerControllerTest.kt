@@ -90,7 +90,7 @@ internal class CustomerControllerTest {
 
     @Test
     internal fun addNewCustomerSuccessResponse() {
-        val mockedOutput = Customer(1, "", "Homeee", "user111", "pass111")
+        val mockedRequestBody = Customer(1, "Jack", "Homeee", "user111", "pass111")
 
 //        every { customerService.addNewCustomer(mockedOutput) } returns Unit     // whats the point of this? still works with or w/o it
 
@@ -98,16 +98,29 @@ internal class CustomerControllerTest {
                 .post("/customers")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(mockedOutput)))
+                .content(gson.toJson(mockedRequestBody)))
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string("Process successful, new Customer added."))
     }
 
+    @Test
+    internal fun updateExistingCustomerSuccess() {
+        val mockedRequestBody = Customer(1, "new Jack", "new Home", "user111", "pass123")
 
+        mockMvc.perform(MockMvcRequestBuilders
+                .put("/customers")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(mockedRequestBody)))
+                .andDo(print())
+                .andExpect(status().isOk)
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string("Process successful, Customer updated."))
+    }
 
-/*
+    /*
     @Test
     internal fun testFindById() {
 
