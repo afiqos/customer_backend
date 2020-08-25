@@ -2,6 +2,7 @@ package com.example.customerbackend.services
 
 import com.example.customerbackend.repositories.CustomerRepository
 import com.example.customerbackend.entities.Customer
+import com.example.customerbackend.exceptions.DeleteIdDoestNotExistException
 import com.example.customerbackend.exceptions.IdAlreadyExistsException
 import com.example.customerbackend.exceptions.NoIdFoundFromSearchException
 import com.example.customerbackend.exceptions.UpdateIdDoesNotExistException
@@ -39,7 +40,11 @@ class CustomerService {
     }
 
     fun deleteCustomer(customerId: Int) {
-        customerRepository.deleteById(customerId)
+        if (customerRepository.existsById(customerId)) {
+            customerRepository.deleteById(customerId)
+        } else {
+            throw DeleteIdDoestNotExistException("Customer does not exist. Process cancelled.")
+        }
     }
 
     fun updateCustomer(customer: Customer) {

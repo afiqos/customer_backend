@@ -21,9 +21,7 @@ class CustomerController {
 
     @GetMapping("/{customerId}")
     fun findById(@PathVariable customerId: Int): ResponseEntity<Customer> {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(customerService.findById(customerId))
-
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.findById(customerId))
     }
 
     // probably need some kind of validation too
@@ -35,7 +33,10 @@ class CustomerController {
 
     // Do we need some validation for deleting? Seems too easy to have accidental deletes from just using URI
     @DeleteMapping("/{customerId}")
-    fun deleteCustomer(@PathVariable customerId: Int) = customerService.deleteCustomer(customerId)
+    fun deleteCustomer(@PathVariable customerId: Int): ResponseEntity<String> {
+        customerService.deleteCustomer(customerId)
+        return ResponseEntity.status(HttpStatus.OK).body("Process successful, customer deleted.")
+    }
 
     // Do we need some validation for updating?
     // Seems to be updating existing entries fine without needing customerId/account_nuumber param
@@ -44,7 +45,6 @@ class CustomerController {
         customerService.updateCustomer(customer)
         return ResponseEntity.status(HttpStatus.OK).body("Process successful, Customer updated.")
     }
-
 
     @GetMapping
     fun findByName(@RequestParam(value="name") customerName: String): List<String> {

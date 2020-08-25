@@ -38,6 +38,12 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
                 .body(updateIdDoesNotExistException.message)
     }
 
+    @ExceptionHandler(DeleteIdDoestNotExistException::class)
+    fun handleException(deleteIdDoestNotExistException: DeleteIdDoestNotExistException): ResponseEntity<String> {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(deleteIdDoestNotExistException.message)
+    }
+
 //    @ExceptionHandler(MissingFindByIdParamException::class)
 //    fun handleException(missingFindByIdParamException: MissingFindByIdParamException,
 //        headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
