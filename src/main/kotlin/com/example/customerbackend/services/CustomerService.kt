@@ -56,7 +56,7 @@ class CustomerService {
         }
     }
 
-    fun findByName(customerName: String): List<String> {
+    fun findByName(customerName: String): MutableList<Customer> {
         return customerRepository.findByNameLike(customerName)
     }
 

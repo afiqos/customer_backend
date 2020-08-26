@@ -47,8 +47,8 @@ class CustomerController {
     }
 
     @GetMapping
-    fun findByName(@RequestParam(value="name") customerName: String): List<String> {
-        return customerService.findByName(customerName)
+    fun findByName(@RequestParam(value="name") customerName: String): ResponseEntity<MutableList<Customer>> {
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.findByName(customerName))
     }
 
 }
