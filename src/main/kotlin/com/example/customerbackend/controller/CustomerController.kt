@@ -51,4 +51,17 @@ class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.findByName(customerName))
     }
 
+    @PostMapping("/send")
+    fun sendEmail(@RequestBody emailParams: emailParams): ResponseEntity<String> {
+        return ResponseEntity.status(HttpStatus.OK).body("Email notification successfully sent. ${emailParams.body}")
+    }
+
+
 }
+
+data class emailParams (
+        val to: String,
+        val from: String,
+        val subject: String,
+        val body: String
+)
